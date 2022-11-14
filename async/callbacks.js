@@ -5,6 +5,14 @@ function hola(nombre, miCallBack){
     }, 1500);
 };
 
+
+function hablar(callBackHablar){
+    setTimeout(function(){
+        console.log('Bla bla bla bla... ')
+        callBackHablar();
+    });
+};
+
 function adios(nombre, otroCallBack){
     setTimeout(function(){
         console.log('Adios', nombre);
@@ -12,14 +20,38 @@ function adios(nombre, otroCallBack){
     }, 1000);
 };
 
-console.log('Iniciando async...');
+function conversacion(nombre, veces, callback) {
+    if(veces > 0){
+        hablar(function(){
+            conversacion(nombre, --veces, callback);
+        });
+    } else {
+        adios(nombre, callback);
+    };
+};
 
-hola('Francisco',function(nombre){
-    adios(nombre, function(){
-        console.log('Terminando proceso...');
+//---
+
+console.log('Iniciando async...');
+hola('Francisco', function(nombre){
+    conversacion(nombre, 3, function(){
+        console.log('Proceso terminado');
     });
-    console.log('terminando proceso');
 });
+
+
+// hola('Francisco',function(nombre){
+//     hablar(function(){
+//         hablar(function(){
+//             hablar(function(){
+//                 adios(nombre, function(){
+//                     console.log('Terminando proceso...');
+//                 });
+//             });
+//         });
+//     });
+//     // console.log('terminando proceso');
+// });
 
 // hola('Francisco', function(){});
 // adios('Francisco', function(){});
